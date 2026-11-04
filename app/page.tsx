@@ -27,6 +27,7 @@ import { useContent } from "@/context/ContentContext";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import SeahorseGuide from "@/components/SeahorseGuide";
 import FeedbackAndQA from "@/components/FeedbackAndQA";
+import WalkingAndMusicExperience from "@/components/WalkingAndMusicExperience";
 
 export default function HomePage() {
   const { language } = useLanguage();
@@ -447,31 +448,10 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================= */}
-      {/* 4. NEXT SECTION: WALKING & MUSIC EXPERIENCE               */}
+      {/* 4. WALKING & MUSIC EXPERIENCE (YOUR WALKING JOURNEY)      */}
       {/* ========================================================= */}
-      <section className="p-6 sm:p-8 rounded-3xl bg-[#E8D9B8] dark:bg-[#263B4B] border-2 border-[#BBA77E]/60 dark:border-[#455565] shadow-lg flex flex-col sm:flex-row items-center justify-between gap-6 transition-all duration-300">
-        <div className="space-y-2 text-center sm:text-left">
-          <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#FFFFFF] dark:bg-[#182A39] text-[#1F354D] dark:text-[#F0A536] text-xs font-bold uppercase tracking-wider border border-[#BBA77E]/60 dark:border-[#455565]">
-            <Footprints className="w-3.5 h-3.5 text-[#F0A536]" />
-            <span>{isKm ? "វគ្គបន្ទាប់ • NEXT SECTION" : "NEXT SECTION • WALKING & MUSIC"}</span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-extrabold text-[#1F354D] dark:text-[#F5F0E5]">
-            {isKm ? "បទពិសោធន៍ថ្មើរជើង & សំនៀងសម័យមាស" : "Walking & Music Experience"}
-          </h3>
-          <p className="text-xs sm:text-sm text-[#55534B] dark:text-[#C2BBAE] max-w-xl">
-            {isKm
-              ? "បន្តដំណើរទៅកាន់ទំព័រ layout ថ្មីបន្ទាប់ពីទីតាំងបេតិកភណ្ឌទាំង ៦៖ តាមដានជំហាន ចម្ងាយ វឌ្ឍនភាព និងចាក់ចម្រៀងសម័យមាសកម្ពុជាទសវត្សរ៍ ១៩៦០–១៩៧០ (ស៊ីន ស៊ីសាមុត រស់ សេរីសុទ្ធា ប៉ែន រ៉ន)។"
-              : "Continue to the dedicated new layout section following the 6 curated stops: track your steps, distance, route progress, and immerse yourself in 1960s–1970s Cambodian Golden Age recordings."}
-          </p>
-        </div>
-
-        <Link
-          href="/journey"
-          className="inline-flex items-center space-x-2 px-6 py-3.5 rounded-full bg-[#F0A536] hover:bg-[#e09426] text-[#1F354D] font-extrabold text-sm shadow-md transition-all shrink-0 hover:scale-105 border border-[#F0A536] cursor-pointer"
-        >
-          <span>{isKm ? "ចូលទៅកាន់វគ្គបន្ទាប់ →" : "Continue to Next Section →"}</span>
-          <ArrowRight className="w-4 h-4" />
-        </Link>
+      <section className="space-y-4">
+        <WalkingAndMusicExperience />
       </section>
 
       {/* ========================================================= */}

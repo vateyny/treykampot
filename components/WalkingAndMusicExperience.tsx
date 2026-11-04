@@ -14,6 +14,8 @@ import {
   Play,
   Pause,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
   ArrowUpRight,
   CheckCircle2,
   Circle,
@@ -214,127 +216,154 @@ export default function WalkingAndMusicExperience({
         {/* 1. YOUR WALKING JOURNEY (Rendered when section !== 'music') */}
         {/* ========================================================= */}
         {section !== "music" && (
-        <div className="p-5 sm:p-6 space-y-5">
-          {/* Section Heading & Mode Selector */}
+        <div className="p-5 sm:p-7 space-y-5">
+          {/* Section Heading & In Progress Tag */}
           <div className="flex items-center justify-between">
-            <h3 className="text-base sm:text-lg font-bold text-[#1F354D] dark:text-[#F5F0E5]">
-              {isKm ? "ដំណើរថ្មើរជើងរបស់អ្នក" : "Your walking journey"}
+            <h3 className="text-sm sm:text-base font-extrabold uppercase tracking-wide text-[#1F354D] dark:text-[#F5F0E5]">
+              {isKm ? "ដំណើរថ្មើរជើងរបស់អ្នក" : "YOUR WALKING JOURNEY"}
             </h3>
 
-            {/* Mode Indicator Tag */}
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-[#1F354D] dark:text-[#F0A536] bg-[#E8D9B8] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565]">
-              {dataMode === "sample"
-                ? isKm ? "ទិន្នន័យគំរូ • Sample" : "Sample preview"
-                : isKm ? "ជាក់ស្តែង • Live" : "Live walk"}
+            {/* In Progress Status Pill */}
+            <span className="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300/40">
+              {isKm ? "កំពុងដំណើរការ" : "IN PROGRESS"}
             </span>
           </div>
 
-          {/* 3 Metric Cards Grid matching the mockup */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 text-left">
-            {/* Steps Card */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565]">
-              <div className="flex items-center space-x-1.5 text-[#55534B] dark:text-[#C2BBAE] text-[11px] font-medium">
-                <Footprints className="w-3.5 h-3.5 text-[#F0A536] stroke-[1.75]" />
-                <span className="truncate">{isKm ? "ជំហាន" : "Steps"}</span>
-              </div>
-              <div className="mt-1.5 text-base sm:text-lg font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
+          {/* 3 Metric Columns matching the user's design */}
+          <div className="grid grid-cols-3 gap-4 pt-1">
+            {/* Steps Taken */}
+            <div className="space-y-1">
+              <Footprints className="w-4 h-4 text-[#55534B] dark:text-[#C2BBAE] stroke-[1.75]" />
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
                 {stepsTaken}
               </div>
+              <div className="text-xs text-[#55534B] dark:text-[#C2BBAE] font-medium">
+                {isKm ? "ជំហានដែលបានដើរ" : "Steps taken"}
+              </div>
             </div>
 
-            {/* Distance Card */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565]">
-              <div className="flex items-center space-x-1.5 text-[#55534B] dark:text-[#C2BBAE] text-[11px] font-medium">
-                <MapPin className="w-3.5 h-3.5 text-[#F0A536] stroke-[1.75]" />
-                <span className="truncate">{isKm ? "ចម្ងាយ" : "Distance"}</span>
-              </div>
-              <div className="mt-1.5 text-base sm:text-lg font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
+            {/* Distance Walked */}
+            <div className="space-y-1">
+              <Route className="w-4 h-4 text-[#55534B] dark:text-[#C2BBAE] stroke-[1.75]" />
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
                 {distanceKm}
               </div>
+              <div className="text-xs text-[#55534B] dark:text-[#C2BBAE] font-medium">
+                {isKm ? "ចម្ងាយដែលបានដើរ" : "Distance walked"}
+              </div>
             </div>
 
-            {/* Stops Card */}
-            <div className="p-3 sm:p-3.5 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565]">
-              <div className="flex items-center space-x-1.5 text-[#55534B] dark:text-[#C2BBAE] text-[11px] font-medium">
-                <Route className="w-3.5 h-3.5 text-[#F0A536] stroke-[1.75]" />
-                <span className="truncate">{isKm ? "ទីតាំង" : "Stops"}</span>
+            {/* Stops Visited */}
+            <div className="space-y-1">
+              <MapPin className="w-4 h-4 text-[#55534B] dark:text-[#C2BBAE] stroke-[1.75]" />
+              <div className="text-2xl sm:text-3xl font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
+                {completedCount} / {totalStops}
               </div>
-              <div className="mt-1.5 text-base sm:text-lg font-extrabold text-[#1F354D] dark:text-[#F5F0E5] tracking-tight">
-                {completedCount} of {totalStops}
+              <div className="text-xs text-[#55534B] dark:text-[#C2BBAE] font-medium">
+                {isKm ? "ទីតាំងដែលបានទៅដល់" : "Stops visited"}
               </div>
             </div>
           </div>
 
-          {/* Progress Bar with Percentage and Label */}
-          <div className="space-y-1.5">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-[#1F354D] dark:text-[#F5F0E5]">
-                {isKm ? "វឌ្ឍនភាពនៃផ្លូវដើរ" : "Route progress"}
+          {/* Thin divider line */}
+          <div className="border-t border-[#E8D9B8]/70 dark:border-[#455565] my-2" />
+
+          {/* Segmented Route Progress Bar */}
+          <div className="space-y-2">
+            <span className="block text-xs font-bold text-[#1F354D] dark:text-[#F5F0E5]">
+              {isKm ? "វឌ្ឍនភាពនៃផ្លូវដើរ" : "Your route progress"}
+            </span>
+
+            {/* 6 Segmented Pill Bars */}
+            <div className="grid grid-cols-6 gap-2 my-2">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    i < completedCount
+                      ? "bg-[#1F354D] dark:bg-[#F0A536]"
+                      : "bg-[#E8D9B8]/70 dark:bg-slate-700"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between text-xs text-[#55534B] dark:text-[#C2BBAE] pt-0.5">
+              <span>
+                {isKm
+                  ? `${completedCount} ក្នុងចំណោម ${totalStops} ទីតាំងបេតិកភណ្ឌបានបញ្ចប់`
+                  : `${completedCount} of ${totalStops} heritage stops completed`}
               </span>
-              <span className="font-bold text-[#F0A536]">
+              <span className="font-extrabold text-[#1F354D] dark:text-[#F5F0E5] text-sm">
                 {progressPercent}%
               </span>
             </div>
-
-            {/* Progress track */}
-            <div className="h-2 w-full rounded-full bg-[#E8D9B8]/50 dark:bg-slate-700 overflow-hidden">
-              <div
-                className="h-full bg-[#F0A536] rounded-full transition-all duration-500"
-                style={{ width: `${progressPercent}%` }}
-              />
-            </div>
           </div>
 
-          {/* Interactive Checklist Accordion / Toggle */}
-          <div className="pt-1">
+          {/* Centered Circle Arrow Down Sitting on Divider Line */}
+          <div className="relative my-3 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-[#E8D9B8]/70 dark:border-[#455565]" />
+            </div>
             <button
               type="button"
               onClick={() => setIsChecklistOpen(!isChecklistOpen)}
-              className="text-xs font-semibold text-[#B77B5B] dark:text-[#F0A536] hover:underline flex items-center space-x-1 cursor-pointer"
+              className="relative w-8 h-8 rounded-full border border-[#E8D9B8] dark:border-[#455565] bg-white dark:bg-[#263B4B] flex items-center justify-center text-xs text-[#1F354D] dark:text-[#F5F0E5] shadow-xs hover:scale-105 transition-all cursor-pointer"
+              title={isChecklistOpen ? "Collapse Checklist" : "Expand Visited Stops Checklist"}
             >
-              <span>
-                {isChecklistOpen
-                  ? isKm ? "លាក់បញ្ជីទីតាំងទាំង ៦" : "Hide stop checklist"
-                  : isKm ? "កត់ត្រាទីតាំងដែលអ្នកបានទៅដល់ (៦ ទីតាំង) ↓" : "Update your visited stops checklist (6 stops) ↓"}
-              </span>
+              {isChecklistOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
-
-            {isChecklistOpen && (
-              <div className="mt-3 p-3.5 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] space-y-2 animate-in fade-in duration-200">
-                <p className="text-[11px] text-[#55534B] dark:text-[#C2BBAE] pb-1">
-                  {isKm
-                    ? "ចុចលើប្រអប់ដើម្បីធីកទីតាំងដែលអ្នកបានដើរដល់ក្នុងក្រុងកំពត៖"
-                    : "Tap to toggle which colonial stops you've visited on your walk:"}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  {HERITAGE_STOPS.map((stop) => {
-                    const isChecked = visitedStopIds.includes(stop.id);
-                    return (
-                      <button
-                        key={stop.id}
-                        type="button"
-                        onClick={() => toggleStopVisited(stop.id)}
-                        className={`flex items-center space-x-2 p-2 rounded-lg text-left transition-colors cursor-pointer border ${
-                          isChecked
-                            ? "bg-[#E8D9B8] dark:bg-[#263B4B] border-[#F0A536] text-[#1F354D] dark:text-[#F5F0E5]"
-                            : "bg-white dark:bg-[#182A39] border-[#E8D9B8] dark:border-[#455565] text-[#55534B] dark:text-[#C2BBAE]"
-                        }`}
-                      >
-                        {isChecked ? (
-                          <CheckCircle2 className="w-4 h-4 text-[#F0A536] shrink-0 fill-current/20" />
-                        ) : (
-                          <Circle className="w-4 h-4 text-[#BBA77E] dark:text-[#455565] shrink-0" />
-                        )}
-                        <span className="truncate font-medium">
-                          0{stop.order}. {isKm ? stop.khmerTitle : stop.title}
-                        </span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
           </div>
+
+          {/* Interactive Checklist Accordion */}
+          {isChecklistOpen && (
+            <div className="p-3.5 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] space-y-2 animate-in fade-in duration-200">
+              <p className="text-[11px] text-[#55534B] dark:text-[#C2BBAE] pb-1">
+                {isKm
+                  ? "ចុចលើប្រអប់ដើម្បីធីកទីតាំងដែលអ្នកបានដើរដល់ក្នុងក្រុងកំពត៖"
+                  : "Tap to toggle which colonial stops you've visited on your walk:"}
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                {HERITAGE_STOPS.map((stop) => {
+                  const isChecked = visitedStopIds.includes(stop.id);
+                  return (
+                    <button
+                      key={stop.id}
+                      type="button"
+                      onClick={() => toggleStopVisited(stop.id)}
+                      className={`flex items-center space-x-2 p-2 rounded-lg text-left transition-colors cursor-pointer border ${
+                        isChecked
+                          ? "bg-[#E8D9B8] dark:bg-[#263B4B] border-[#F0A536] text-[#1F354D] dark:text-[#F5F0E5]"
+                          : "bg-white dark:bg-[#182A39] border-[#E8D9B8] dark:border-[#455565] text-[#55534B] dark:text-[#C2BBAE]"
+                      }`}
+                    >
+                      {isChecked ? (
+                        <CheckCircle2 className="w-4 h-4 text-[#F0A536] shrink-0 fill-current/20" />
+                      ) : (
+                        <Circle className="w-4 h-4 text-[#BBA77E] dark:text-[#455565] shrink-0" />
+                      )}
+                      <span className="truncate font-medium">
+                        0{stop.order}. {isKm ? stop.khmerTitle : stop.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Share Your Journey Row */}
+          <button
+            type="button"
+            onClick={handleShare}
+            className="w-full flex items-center justify-between text-xs font-bold text-[#1F354D] dark:text-[#F5F0E5] hover:text-[#F0A536] transition-colors pt-1 cursor-pointer"
+          >
+            <div className="flex items-center space-x-2">
+              <Share2 className="w-4 h-4 text-[#F0A536]" />
+              <span>{isKm ? "ចែករំលែកដំណើររបស់អ្នក" : "Share your journey"}</span>
+            </div>
+            <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+          </button>
         </div>
         )}
 

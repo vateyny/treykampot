@@ -34,6 +34,7 @@ export default function FeedbackAndQA() {
   const [openQAIndex, setOpenQAIndex] = useState<number | null>(0);
 
   // Feedback Form State
+  const [feedbackTab, setFeedbackTab] = useState<"form" | "reviews">("form");
   const [rating, setRating] = useState<number>(5);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [selectedTag, setSelectedTag] = useState<string>("Stunning Sunset Walk");
@@ -224,230 +225,313 @@ export default function FeedbackAndQA() {
         </div>
       </div>
 
-      {/* 2-Column Responsive Layout: Q&A on Left, Feedback on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* 2-Column Responsive Layout: Two Symmetrical Boxes (Box to Box) */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         
         {/* ========================================================= */}
-        {/* LEFT COLUMN: INTERACTIVE ACCORDION Q&A (7 Columns)        */}
+        {/* BOX 1: CURATED WALKING TOUR Q&A                           */}
         {/* ========================================================= */}
-        <div className="lg:col-span-7 space-y-3">
-          <div className="flex items-center justify-between pb-1">
-            <h3 className="text-base font-extrabold text-[#1F354D] dark:text-[#F5F0E5] flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-[#F0A536]" />
-              <span>{isKm ? "សំណួរដែលសួរញឹកញាប់ (Q&A)" : "Curated Walking Tour Q&A"}</span>
-            </h3>
-            <span className="text-xs text-[#55534B] dark:text-[#C2BBAE]">
-              {qaData.length} {isKm ? "សំណួរ" : "answers"}
-            </span>
+        <div className="p-6 sm:p-7 rounded-3xl bg-[#FFFFFF] dark:bg-[#263B4B] border-2 border-[#E8D9B8] dark:border-[#455565] shadow-lg flex flex-col justify-between space-y-4">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8D9B8] dark:border-[#455565]">
+              <div className="flex items-center space-x-2">
+                <Sparkles className="w-4 h-4 text-[#F0A536]" />
+                <h3 className="text-base sm:text-lg font-extrabold text-[#1F354D] dark:text-[#F5F0E5]">
+                  {isKm ? "សំណួរដែលសួរញឹកញាប់ (Q&A)" : "Curated Walking Tour Q&A"}
+                </h3>
+              </div>
+              <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#F5F0E5] dark:bg-[#182A39] text-[#1F354D] dark:text-[#F0A536] border border-[#E8D9B8] dark:border-[#455565]">
+                {qaData.length} {isKm ? "សំណួរ" : "Questions"}
+              </span>
+            </div>
+
+            <div className="space-y-2.5">
+              {qaData.map((item, index) => {
+                const isOpen = openQAIndex === index;
+                return (
+                  <div
+                    key={index}
+                    className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
+                      isOpen
+                        ? "bg-[#F5F0E5] dark:bg-[#182A39] border-[#F0A536] shadow-xs"
+                        : "bg-[#F5F0E5]/60 dark:bg-[#182A39]/60 border-[#E8D9B8] dark:border-[#455565] hover:border-[#F0A536]/60"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenQAIndex(isOpen ? null : index)}
+                      className="w-full p-3.5 sm:p-4 text-left flex items-start justify-between gap-3 cursor-pointer"
+                    >
+                      <span className="font-extrabold text-xs sm:text-sm text-[#1F354D] dark:text-[#F5F0E5] leading-snug">
+                        {item.q}
+                      </span>
+                      <span className="w-6 h-6 rounded-full bg-[#FFFFFF] dark:bg-[#263B4B] flex items-center justify-center shrink-0 text-[#1F354D] dark:text-[#F0A536] mt-0.5 border border-[#E8D9B8] dark:border-[#455565]">
+                        {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      </span>
+                    </button>
+
+                    {isOpen && (
+                      <div className="px-4 pb-4 pt-1 text-xs text-[#55534B] dark:text-[#C2BBAE] leading-relaxed border-t border-[#E8D9B8]/40 dark:border-[#455565] animate-in fade-in duration-200">
+                        {item.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="space-y-2.5">
-            {qaData.map((item, index) => {
-              const isOpen = openQAIndex === index;
-              return (
-                <div
-                  key={index}
-                  className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
-                    isOpen
-                      ? "bg-[#FFFFFF] dark:bg-[#263B4B] border-[#F0A536] shadow-md"
-                      : "bg-[#FFFFFF] dark:bg-[#182A39] border-[#E8D9B8] dark:border-[#455565] hover:border-[#F0A536]/60"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenQAIndex(isOpen ? null : index)}
-                    className="w-full p-4 sm:p-4.5 text-left flex items-start justify-between gap-3 cursor-pointer"
-                  >
-                    <span className="font-extrabold text-xs sm:text-sm text-[#1F354D] dark:text-[#F5F0E5] leading-snug">
-                      {item.q}
-                    </span>
-                    <span className="w-6 h-6 rounded-full bg-[#F5F0E5] dark:bg-[#182A39] flex items-center justify-center shrink-0 text-[#1F354D] dark:text-[#F0A536] mt-0.5">
-                      {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-                    </span>
-                  </button>
-
-                  {isOpen && (
-                    <div className="px-4 pb-4 pt-1 text-xs text-[#55534B] dark:text-[#C2BBAE] leading-relaxed border-t border-[#E8D9B8]/40 dark:border-[#455565] animate-in fade-in duration-200">
-                      {item.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+          {/* Quick Mascot Tip at bottom of Box 1 */}
+          <div className="pt-3 border-t border-[#E8D9B8] dark:border-[#455565] flex items-center space-x-2.5 text-xs text-[#55534B] dark:text-[#C2BBAE]">
+            <span className="text-base">💡</span>
+            <p className="leading-snug">
+              {isKm
+                ? "ត្រូវការព័ត៌មានបន្ថែម? អ្នកអាចសួរនាំ ត្រីកំពត (@treykampotexplorer) តាមរយៈប្រអប់មតិយោបល់នៅក្បែរនេះ!"
+                : "Need more tips? Leave a note for Trey Kampot Explorer (@treykampotexplorer) in the feedback box!"}
+            </p>
           </div>
         </div>
 
         {/* ========================================================= */}
-        {/* RIGHT COLUMN: VISITOR FEEDBACK & STAR RATING (5 Columns)  */}
+        {/* BOX 2: VISITOR FEEDBACK & COMMUNITY REVIEWS               */}
         {/* ========================================================= */}
-        <div className="lg:col-span-5 space-y-4">
-          
-          {/* Feedback Form Card */}
-          <div className="p-5 sm:p-6 rounded-3xl bg-[#FFFFFF] dark:bg-[#263B4B] border-2 border-[#E8D9B8] dark:border-[#455565] shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-[#E8D9B8] dark:border-[#455565]">
+        <div className="p-6 sm:p-7 rounded-3xl bg-[#FFFFFF] dark:bg-[#263B4B] border-2 border-[#E8D9B8] dark:border-[#455565] shadow-lg flex flex-col justify-between space-y-4">
+          <div className="space-y-4">
+            {/* Box Header with Mode Tabs */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#E8D9B8] dark:border-[#455565]">
               <div className="flex items-center space-x-2">
                 <MessageSquare className="w-4 h-4 text-[#F0A536]" />
-                <h3 className="text-sm sm:text-base font-extrabold text-[#1F354D] dark:text-[#F5F0E5]">
-                  {isKm ? "ចែករំលែកមតិយោបល់របស់អ្នក" : "Leave Your Feedback"}
+                <h3 className="text-base sm:text-lg font-extrabold text-[#1F354D] dark:text-[#F5F0E5]">
+                  {isKm ? "មតិយោបល់ និងការវាយតម្លៃ" : "Visitor Feedback & Reviews"}
                 </h3>
               </div>
-              <span className="text-[10px] font-bold text-[#F0A536] uppercase tracking-wider">
-                {isKm ? "ស្ទង់មតិ" : "Community"}
-              </span>
+
+              {/* Balanced Switcher Tabs */}
+              <div className="flex items-center space-x-1 p-1 rounded-full bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565]">
+                <button
+                  type="button"
+                  onClick={() => setFeedbackTab("form")}
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer ${
+                    feedbackTab === "form"
+                      ? "bg-[#F0A536] text-[#1F354D] shadow-xs"
+                      : "text-[#55534B] dark:text-[#C2BBAE] hover:text-[#1F354D] dark:hover:text-white"
+                  }`}
+                >
+                  {isKm ? "✍️ បញ្ចេញមតិ" : "✍️ Write"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFeedbackTab("reviews")}
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center space-x-1.5 ${
+                    feedbackTab === "reviews"
+                      ? "bg-[#F0A536] text-[#1F354D] shadow-xs"
+                      : "text-[#55534B] dark:text-[#C2BBAE] hover:text-[#1F354D] dark:hover:text-white"
+                  }`}
+                >
+                  <span>{isKm ? "⭐ មតិអ្នកដំណើរ" : "⭐ Reviews"}</span>
+                  <span className="px-1.5 py-0.2 rounded-full text-[10px] font-extrabold bg-[#1F354D] text-white dark:bg-[#263B4B]">
+                    {feedbackList.length}
+                  </span>
+                </button>
+              </div>
             </div>
 
-            {isSubmitted ? (
-              <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-center space-y-2 animate-in zoom-in-95 duration-200">
-                <div className="w-12 h-12 mx-auto">
-                  <img
-                    src="/images/mascot/pufferfish/celebratory.png"
-                    alt="Celebratory Trey Kampot"
-                    className="w-full h-full object-contain filter drop-shadow"
-                  />
-                </div>
-                <h4 className="text-xs sm:text-sm font-extrabold text-emerald-800 dark:text-emerald-300">
-                  {isKm ? "សូមអរគុណសម្រាប់មតិយោបល់របស់អ្នក! 🎉" : "Thank you for your feedback! 🎉"}
-                </h4>
-                <p className="text-[11px] text-emerald-700 dark:text-emerald-400">
-                  {isKm
-                    ? "ត្រីកំពត អ្នករុករក (@treykampotexplorer) សូមអរគុណចំពោះការចូលរួមថែរក្សាបេតិកភណ្ឌក្រុងកំពត។"
-                    : "Trey Kampot Explorer (@treykampotexplorer) celebrates your contribution to preserving Kampot's heritage!"}
-                </p>
+            {/* TAB CONTENT: FORM VIEW */}
+            {feedbackTab === "form" && (
+              <div className="space-y-3.5">
+                {isSubmitted ? (
+                  <div className="p-6 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 text-center space-y-3 animate-in zoom-in-95 duration-200">
+                    <div className="w-16 h-16 mx-auto">
+                      <img
+                        src="/images/mascot/pufferfish/celebratory.png"
+                        alt="Celebratory Trey Kampot"
+                        className="w-full h-full object-contain filter drop-shadow"
+                      />
+                    </div>
+                    <h4 className="text-sm sm:text-base font-extrabold text-emerald-800 dark:text-emerald-300">
+                      {isKm ? "សូមអរគុណសម្រាប់មតិយោបល់របស់អ្នក! 🎉" : "Thank you for your feedback! 🎉"}
+                    </h4>
+                    <p className="text-xs text-emerald-700 dark:text-emerald-400">
+                      {isKm
+                        ? "ត្រីកំពត អ្នករុករក (@treykampotexplorer) បានកត់ត្រាមតិយោបល់របស់អ្នករួចរាល់ហើយ!"
+                        : "Trey Kampot Explorer (@treykampotexplorer) added your review to the community board!"}
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmitFeedback} className="space-y-3.5 text-xs">
+                    {/* 1. Star Rating */}
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
+                        {isKm ? "ការវាយតម្លៃរបស់អ្នក (ផ្កាយ)៖" : "Your Experience Rating:"}
+                      </label>
+                      <div className="flex items-center space-x-1.5">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setRating(star)}
+                            onMouseEnter={() => setHoverRating(star)}
+                            onMouseLeave={() => setHoverRating(0)}
+                            className="p-1 rounded-lg hover:bg-[#F5F0E5] dark:hover:bg-[#182A39] transition-transform hover:scale-120 cursor-pointer"
+                            title={`${star} stars`}
+                          >
+                            <Star
+                              className={`w-5 h-5 ${
+                                (hoverRating || rating) >= star
+                                  ? "fill-[#F0A536] text-[#F0A536]"
+                                  : "text-[#BBA77E] dark:text-[#455565]"
+                              }`}
+                            />
+                          </button>
+                        ))}
+                        <span className="text-xs font-extrabold text-[#F0A536] ml-2">
+                          {rating} / 5
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 2. Highlight Tags */}
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1.5">
+                        {isKm ? "អ្វីដែលអ្នកពេញចិត្តបំផុត៖" : "What did you enjoy most?"}
+                      </label>
+                      <div className="flex flex-wrap gap-1.5">
+                        {experienceTags.map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            onClick={() => setSelectedTag(tag)}
+                            className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
+                              selectedTag === tag
+                                ? "bg-[#F0A536] text-[#1F354D] shadow-xs"
+                                : "bg-[#F5F0E5] dark:bg-[#182A39] text-[#55534B] dark:text-[#C2BBAE] border border-[#E8D9B8] dark:border-[#455565] hover:border-[#F0A536]"
+                            }`}
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 3. Name Input */}
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
+                        {isKm ? "ឈ្មោះរបស់អ្នក (ស្រេចចិត្ត)៖" : "Your Name (Optional):"}
+                      </label>
+                      <input
+                        type="text"
+                        value={visitorName}
+                        onChange={(e) => setVisitorName(e.target.value)}
+                        placeholder={isKm ? "ឧ. សុខា ភ្នំពេញ" : "e.g., Alex, Traveler from Canada"}
+                        className="w-full px-3 py-2 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] text-[#1F354D] dark:text-[#F5F0E5] focus:outline-none focus:border-[#F0A536]"
+                      />
+                    </div>
+
+                    {/* 4. Message Input */}
+                    <div>
+                      <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
+                        {isKm ? "មតិយោបល់ ឬចំណាប់អារម្មណ៍៖" : "Your Message / Review:"}
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={visitorComment}
+                        onChange={(e) => setVisitorComment(e.target.value)}
+                        placeholder={
+                          isKm
+                            ? "ចែករំលែកអារម្មណ៍របស់អ្នកអំពីដំណើរបេតិកភណ្ឌ ឬសំណូមពរ..."
+                            : "Tell us what you discovered or suggest improvements..."
+                        }
+                        className="w-full px-3 py-2 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] text-[#1F354D] dark:text-[#F5F0E5] focus:outline-none focus:border-[#F0A536] resize-none"
+                        required
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      className="w-full py-2.5 rounded-full bg-[#F0A536] hover:bg-[#e09426] text-[#1F354D] font-extrabold text-xs shadow-md transition-all hover:scale-102 flex items-center justify-center space-x-1.5 cursor-pointer"
+                    >
+                      <Send className="w-3.5 h-3.5" />
+                      <span>{isKm ? "ផ្ញើមតិយោបល់ជូន ត្រីកំពត" : "Send Feedback to Trey Kampot"}</span>
+                    </button>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form onSubmit={handleSubmitFeedback} className="space-y-3.5 text-xs">
-                {/* 1. Interactive Star Rating */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
-                    {isKm ? "ការវាយតម្លៃរបស់អ្នក (ផ្កាយ)៖" : "Your Experience Rating:"}
-                  </label>
-                  <div className="flex items-center space-x-1.5">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        onClick={() => setRating(star)}
-                        onMouseEnter={() => setHoverRating(star)}
-                        onMouseLeave={() => setHoverRating(0)}
-                        className="p-1 rounded-lg hover:bg-[#F5F0E5] dark:hover:bg-[#182A39] transition-transform hover:scale-120 cursor-pointer"
-                        title={`${star} stars`}
-                      >
-                        <Star
-                          className={`w-5 h-5 ${
-                            (hoverRating || rating) >= star
-                              ? "fill-[#F0A536] text-[#F0A536]"
-                              : "text-[#BBA77E] dark:text-[#455565]"
-                          }`}
-                        />
-                      </button>
-                    ))}
-                    <span className="text-xs font-extrabold text-[#F0A536] ml-2">
-                      {rating} / 5
-                    </span>
-                  </div>
+            )}
+
+            {/* TAB CONTENT: REVIEWS VIEW */}
+            {feedbackTab === "reviews" && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between pb-1">
+                  <span className="text-xs font-bold text-[#55534B] dark:text-[#C2BBAE]">
+                    {isKm ? "មតិយោបល់ពីអ្នកដំណើរពិតប្រាកដ" : "Verified Traveler Impressions"}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setFeedbackTab("form")}
+                    className="text-xs font-bold text-[#F0A536] hover:underline cursor-pointer"
+                  >
+                    {isKm ? "+ បញ្ចូលមតិយោបល់របស់អ្នក" : "+ Write a review"}
+                  </button>
                 </div>
 
-                {/* 2. Highlight Tags Selector */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1.5">
-                    {isKm ? "អ្វីដែលអ្នកពេញចិត្តបំផុត៖" : "What did you enjoy most?"}
-                  </label>
-                  <div className="flex flex-wrap gap-1.5">
-                    {experienceTags.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => setSelectedTag(tag)}
-                        className={`px-2.5 py-1 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
-                          selectedTag === tag
-                            ? "bg-[#F0A536] text-[#1F354D] shadow-xs"
-                            : "bg-[#F5F0E5] dark:bg-[#182A39] text-[#55534B] dark:text-[#C2BBAE] border border-[#E8D9B8] dark:border-[#455565] hover:border-[#F0A536]"
-                        }`}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                <div className="space-y-2.5 max-h-[380px] overflow-y-auto pr-1">
+                  {feedbackList.map((item) => (
+                    <div
+                      key={item.id}
+                      className="p-3.5 rounded-2xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] space-y-1.5 shadow-2xs"
+                    >
+                      <div className="flex items-center justify-between text-xs">
+                        <div className="flex items-center space-x-1.5 font-bold text-[#1F354D] dark:text-[#F5F0E5]">
+                          <User className="w-3 h-3 text-[#F0A536]" />
+                          <span>{item.name}</span>
+                          <span className="text-[10px] text-[#55534B]/60 dark:text-[#C2BBAE]/60 font-normal">
+                            • {item.date}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-0.5 text-[#F0A536]">
+                          {Array.from({ length: item.rating }).map((_, i) => (
+                            <Star key={i} className="w-3 h-3 fill-current" />
+                          ))}
+                        </div>
+                      </div>
 
-                {/* 3. Visitor Name Input */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
-                    {isKm ? "ឈ្មោះរបស់អ្នក (ស្រេចចិត្ត)៖" : "Your Name (Optional):"}
-                  </label>
-                  <input
-                    type="text"
-                    value={visitorName}
-                    onChange={(e) => setVisitorName(e.target.value)}
-                    placeholder={isKm ? "ឧ. សុខា ភ្នំពេញ" : "e.g., Alex, Traveler from Canada"}
-                    className="w-full px-3 py-2 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] text-[#1F354D] dark:text-[#F5F0E5] focus:outline-none focus:border-[#F0A536]"
-                  />
-                </div>
+                      <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#FFFFFF] dark:bg-[#263B4B] text-[#B77B5B] dark:text-[#F0A536] border border-[#E8D9B8] dark:border-[#455565]">
+                        {item.tag}
+                      </span>
 
-                {/* 4. Feedback Message Textarea */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] mb-1">
-                    {isKm ? "មតិយោបល់ ឬចំណាប់អារម្មណ៍៖" : "Your Message / Review:"}
-                  </label>
-                  <textarea
-                    rows={3}
-                    value={visitorComment}
-                    onChange={(e) => setVisitorComment(e.target.value)}
-                    placeholder={
-                      isKm
-                        ? "ចែករំលែកអារម្មណ៍របស់អ្នកអំពីដំណើរបេតិកភណ្ឌ ឬសំណូមពរ..."
-                        : "Tell us what you discovered or suggest improvements..."
-                    }
-                    className="w-full px-3 py-2 rounded-xl bg-[#F5F0E5] dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] text-[#1F354D] dark:text-[#F5F0E5] focus:outline-none focus:border-[#F0A536] resize-none"
-                    required
-                  />
+                      <p className="text-[11px] text-[#55534B] dark:text-[#C2BBAE] leading-relaxed italic">
+                        "{isKm && item.khmerComment ? item.khmerComment : item.comment}"
+                      </p>
+                    </div>
+                  ))}
                 </div>
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  className="w-full py-2.5 rounded-full bg-[#F0A536] hover:bg-[#e09426] text-[#1F354D] font-extrabold text-xs shadow-md transition-all hover:scale-102 flex items-center justify-center space-x-1.5 cursor-pointer"
-                >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>{isKm ? "ផ្ញើមតិយោបល់ជូន ត្រីកំពត" : "Send Feedback to Trey Kampot"}</span>
-                </button>
-              </form>
+              </div>
             )}
           </div>
 
-          {/* Recent Community Testimonials Feed */}
-          <div className="space-y-2.5">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-[#B77B5B] dark:text-[#F0A536] block px-1">
-              {isKm ? "មតិយោបល់ថ្មីៗពីអ្នកដំណើរ៖" : "Recent Traveler Testimonials:"}
+          {/* Quick toggle footer in Box 2 */}
+          <div className="pt-3 border-t border-[#E8D9B8] dark:border-[#455565] flex items-center justify-between text-xs text-[#55534B] dark:text-[#C2BBAE]">
+            {feedbackTab === "form" ? (
+              <button
+                type="button"
+                onClick={() => setFeedbackTab("reviews")}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#F0A536] hover:underline cursor-pointer"
+              >
+                <span>⭐ {isKm ? `មើលមតិយោបល់ទាំង ${feedbackList.length} ពីអ្នកដំណើរ →` : `Read all ${feedbackList.length} traveler reviews →`}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setFeedbackTab("form")}
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#F0A536] hover:underline cursor-pointer"
+              >
+                <span>✍️ {isKm ? "ត្រឡប់ទៅសរសេរមតិយោបល់ →" : "Switch to leave a review →"}</span>
+              </button>
+            )}
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#F0A536]">
+              @treykampotexplorer
             </span>
-            <div className="space-y-2">
-              {feedbackList.slice(0, 3).map((item) => (
-                <div
-                  key={item.id}
-                  className="p-3.5 rounded-2xl bg-white dark:bg-[#182A39] border border-[#E8D9B8] dark:border-[#455565] space-y-1.5 shadow-2xs"
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <div className="flex items-center space-x-1.5 font-bold text-[#1F354D] dark:text-[#F5F0E5]">
-                      <User className="w-3 h-3 text-[#F0A536]" />
-                      <span>{item.name}</span>
-                    </div>
-                    <div className="flex items-center space-x-0.5 text-[#F0A536]">
-                      {Array.from({ length: item.rating }).map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-current" />
-                      ))}
-                    </div>
-                  </div>
-
-                  <span className="inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F5F0E5] dark:bg-[#263B4B] text-[#B77B5B] dark:text-[#F0A536] border border-[#E8D9B8] dark:border-[#455565]">
-                    {item.tag}
-                  </span>
-
-                  <p className="text-[11px] text-[#55534B] dark:text-[#C2BBAE] leading-relaxed italic">
-                    "{isKm && item.khmerComment ? item.khmerComment : item.comment}"
-                  </p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>

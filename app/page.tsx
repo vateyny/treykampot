@@ -473,12 +473,7 @@ export default function HomePage() {
       </section>
 
       {/* ========================================================= */}
-      {/* 4B. VISITOR FEEDBACK & Q&A SECTION (TREY KAMPOT GUIDE)    */}
-      {/* ========================================================= */}
-      <FeedbackAndQA />
-
-      {/* ========================================================= */}
-      {/* 5. LAST: TOUR GRAND FINALE (KAMPOT BY NIGHT)               */}
+      {/* 4B. TOUR GRAND FINALE (KAMPOT BY NIGHT)                    */}
       {/*    WITH CELEBRATORY PUFFERFISH MASCOT CELEBRATING TOUR END */}
       {/* ========================================================= */}
       <section className="space-y-4">
@@ -557,6 +552,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ========================================================= */}
+      {/* 5. VISITOR FEEDBACK & Q&A SECTION (TREY KAMPOT GUIDE)     */}
+      {/* ========================================================= */}
+      <FeedbackAndQA />
 
       {/* FULLSCREEN LIGHTBOX MODAL */}
       {activeModalImage && (

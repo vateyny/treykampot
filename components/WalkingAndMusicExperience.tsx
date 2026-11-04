@@ -29,6 +29,7 @@ import {
 import { HERITAGE_STOPS } from "@/data/stops";
 import { GOLDEN_AGE_SONGS, FEATURED_ARTISTS, GoldenAgeSong, FeaturedArtist } from "@/data/music";
 import { useLanguage } from "@/context/LanguageContext";
+import { useContent } from "@/context/ContentContext";
 import { vintagePlayer } from "@/utils/vintageAudioSynthesizer";
 
 interface WalkingAndMusicExperienceProps {
@@ -43,6 +44,8 @@ export default function WalkingAndMusicExperience({
   section = "all"
 }: WalkingAndMusicExperienceProps) {
   const { language } = useLanguage();
+  const { songs } = useContent();
+  const playlist = songs && songs.length > 0 ? songs : GOLDEN_AGE_SONGS;
   const isKm = language === "km";
 
   // Mode: "sample" (exact 2,450 steps / 1.8 km / 2 of 6 / 33% from the design) or "live" (visitor's real progress)
@@ -53,7 +56,7 @@ export default function WalkingAndMusicExperience({
   const [isChecklistOpen, setIsChecklistOpen] = useState(false);
 
   // Music Player State (Audio Sound Only, No Video)
-  const [currentSong, setCurrentSong] = useState<GoldenAgeSong>(GOLDEN_AGE_SONGS[0]);
+  const [currentSong, setCurrentSong] = useState<GoldenAgeSong>(playlist[0]);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   // Modal for Featured Artists
@@ -151,18 +154,18 @@ export default function WalkingAndMusicExperience({
   };
 
   const handleNextSong = () => {
-    const currentIndex = GOLDEN_AGE_SONGS.findIndex((s) => s.id === currentSong.id);
-    const nextIndex = (currentIndex + 1) % GOLDEN_AGE_SONGS.length;
-    const nextSong = GOLDEN_AGE_SONGS[nextIndex];
+    const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
+    const nextIndex = (currentIndex + 1) % playlist.length;
+    const nextSong = playlist[nextIndex];
     setCurrentSong(nextSong);
     vintagePlayer.playSong(nextSong);
     setIsPlaying(true);
   };
 
   const handlePrevSong = () => {
-    const currentIndex = GOLDEN_AGE_SONGS.findIndex((s) => s.id === currentSong.id);
-    const prevIndex = (currentIndex - 1 + GOLDEN_AGE_SONGS.length) % GOLDEN_AGE_SONGS.length;
-    const prevSong = GOLDEN_AGE_SONGS[prevIndex];
+    const currentIndex = playlist.findIndex((s) => s.id === currentSong.id);
+    const prevIndex = (currentIndex - 1 + playlist.length) % playlist.length;
+    const prevSong = playlist[prevIndex];
     setCurrentSong(prevSong);
     vintagePlayer.playSong(prevSong);
     setIsPlaying(true);
@@ -521,7 +524,7 @@ export default function WalkingAndMusicExperience({
             </div>
 
             <div className="divide-y divide-[#E8D9B8]/50 dark:divide-[#455565] border border-[#E8D9B8] dark:border-[#455565] rounded-2xl overflow-hidden bg-white dark:bg-[#182A39]/80 shadow-xs">
-              {GOLDEN_AGE_SONGS.map((song, idx) => {
+              {playlist.map((song, idx) => {
                 const isSelected = currentSong.id === song.id;
                 const isCurrentlyPlaying = isSelected && isPlaying;
 

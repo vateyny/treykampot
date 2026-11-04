@@ -18,11 +18,13 @@ import {
   Menu,
   X,
   Compass,
-  ArrowRight
+  ArrowRight,
+  Settings
 } from "lucide-react";
 import { HERITAGE_STOPS } from "@/data/stops";
 import { useLanguage } from "@/context/LanguageContext";
 import { useTheme } from "@/context/ThemeContext";
+import { useContent } from "@/context/ContentContext";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -30,6 +32,7 @@ export default function Navbar() {
   const [stopsDropdownOpen, setStopsDropdownOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const { siteConfig } = useContent();
 
   const isKm = language === "km";
 
@@ -62,14 +65,14 @@ export default function Navbar() {
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-base sm:text-lg font-extrabold tracking-tight text-[#1F354D] dark:text-[#F5F0E5]">
-                  {isKm ? "ត្រីកំពត" : "Trey Kampot"}
+                  {isKm ? siteConfig.khmerSiteTitle : siteConfig.siteTitle}
                 </span>
                 <span className="text-[10px] font-bold tracking-tight px-2 py-0.5 rounded-full bg-[#E8D9B8] dark:bg-[#263B4B] text-[#1F354D] dark:text-[#F0A536] border border-[#E8D9B8] dark:border-[#455565]">
-                  @treykampotexplorer
+                  {siteConfig.handle}
                 </span>
               </div>
               <p className="text-[11px] uppercase tracking-wider text-[#55534B] dark:text-[#C2BBAE] font-semibold hidden sm:block">
-                {isKm ? "ដំណើរបេតិកភណ្ឌស្ថាបត្យកម្មសម័យអាណានិគមបារាំង" : "French Colonial-Era Self-Guided Heritage Walk"}
+                {isKm ? siteConfig.khmerHeroSubtitle : siteConfig.heroSubtitle}
               </p>
             </div>
           </NextLink>
@@ -249,6 +252,20 @@ export default function Navbar() {
                   <Moon className="w-4 h-4 text-[#1F354D] transition-transform duration-300 hover:-rotate-12" />
                 )}
               </button>
+
+              {/* Admin Editor Mode Pill */}
+              <NextLink
+                href="/admin"
+                className={`h-9 px-2.5 rounded-full flex items-center space-x-1.5 border transition-all shadow-xs cursor-pointer text-xs font-bold ${
+                  pathname === "/admin"
+                    ? "bg-[#F0A536] text-[#1F354D] border-[#F0A536]"
+                    : "border-[#E8D9B8] dark:border-[#455565] bg-[#FFFFFF] dark:bg-[#263B4B] text-[#1F354D] dark:text-[#F5F0E5] hover:bg-[#E8D9B8] dark:hover:bg-[#354858]"
+                }`}
+                title={isKm ? "ផ្ទាំងគ្រប់គ្រង & កែប្រែគេហទំព័រ (Admin Editor)" : "Edit Site Content (Admin Mode)"}
+              >
+                <Settings className="w-3.5 h-3.5 text-[#F0A536]" />
+                <span className="hidden xl:inline">{isKm ? "កែប្រែ" : "Edit"}</span>
+              </NextLink>
             </div>
 
             {/* ========================================================= */}
@@ -337,6 +354,20 @@ export default function Navbar() {
                 </NextLink>
               );
             })}
+
+            {/* Mobile Admin Link */}
+            <NextLink
+              href="/admin"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-extrabold transition-all ${
+                pathname === "/admin"
+                  ? "bg-[#F0A536] text-[#1F354D]"
+                  : "text-[#F0A536] hover:bg-[#E8D9B8] dark:hover:bg-[#354858]"
+              }`}
+            >
+              <Settings className="w-4 h-4 text-[#F0A536]" />
+              <span>{isKm ? "ផ្ទាំងកែសម្រួលគេហទំព័រ (Admin Editor)" : "Edit Site Content (Admin)"}</span>
+            </NextLink>
           </div>
 
           <div className="pt-2 border-t border-[#E8D9B8] dark:border-[#455565]">

@@ -23,12 +23,14 @@ import {
 } from "lucide-react";
 import { HERITAGE_STOPS, TOUR_METRICS } from "@/data/stops";
 import { useLanguage } from "@/context/LanguageContext";
+import { useContent } from "@/context/ContentContext";
 import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import SeahorseGuide from "@/components/SeahorseGuide";
 import FeedbackAndQA from "@/components/FeedbackAndQA";
 
 export default function HomePage() {
   const { language } = useLanguage();
+  const { stops, siteConfig } = useContent();
   const isKm = language === "km";
 
   const [compareMode, setCompareMode] = useState<"sideBySide" | "slider">("sideBySide");
@@ -378,7 +380,7 @@ export default function HomePage() {
 
         {/* 3-Column Minimal Destination Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {HERITAGE_STOPS.map((stop) => {
+          {stops.map((stop) => {
             const stopImage =
               stop.archivalComparison.modernImageUrl || stop.archivalComparison.archivalImageUrl;
 

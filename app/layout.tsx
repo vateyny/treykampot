@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import SeahorseGuide from "@/components/SeahorseGuide";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ThemeProvider } from "@/context/ThemeContext";
+import { ContentProvider } from "@/context/ContentContext";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -45,10 +46,12 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[#F5F0E5] dark:bg-[#182A39] text-[#1F354D] dark:text-[#F5F0E5] selection:bg-[#F0A536] selection:text-[#1F354D] transition-colors duration-300">
         <ThemeProvider>
           <LanguageProvider>
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <SeahorseGuide variant="floating" />
+            <ContentProvider>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <SeahorseGuide variant="floating" />
+            </ContentProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -15,6 +15,7 @@ import {
   Quote
 } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
+import { useContent } from "@/context/ContentContext";
 
 interface FeedbackItem {
   id: string;
@@ -28,6 +29,7 @@ interface FeedbackItem {
 
 export default function FeedbackAndQA() {
   const { language } = useLanguage();
+  const { qas } = useContent();
   const isKm = language === "km";
 
   // Accordion State
@@ -124,55 +126,12 @@ export default function FeedbackAndQA() {
     setTimeout(() => setIsSubmitted(false), 5000);
   };
 
-  // Questions and Answers Data
-  const qaData = [
+  // Questions and Answers Data (Dynamically managed via Admin CMS)
+  const qaData = qas && qas.length > 0 ? qas : [
     {
-      q: isKm
-        ? "តើផ្លូវថ្មើរជើងនេះមានចម្ងាយប៉ុន្មាន និងប្រើរយៈពេលប៉ុន្មាន?"
-        : "How long is the heritage walking route and how much time does it take?",
-      a: isKm
-        ? "ផ្លូវថ្មើរជើងបេតិកភណ្ឌនេះមានចម្ងាយសរុប ១.៦ គីឡូម៉ែត្រ (ប្រហែល ៤៥ ទៅ ៦០ នាទី ក្នុងល្បឿនដើរធម្មតា)។ ផ្លូវទាំងអស់មានសភាពរាបស្មើ មានម្លប់ដើមឈើបុរាណ និងមានចិញ្ចើមផ្លូវងាយស្រួលដើរ ព្រមទាំងអាចរុញរទេះកូនក្មេង ឬជិះកង់បានយ៉ាងងាយស្រួល។"
-        : "The curated heritage trail covers 1.6 km (approximately 45–60 minutes at a relaxed strolling pace). The route is completely flat, tree-shaded along the French boulevards, and suitable for all fitness levels, strollers, and bicycles.",
-    },
-    {
-      q: isKm
-        ? "តើមានការគិតថ្លៃសំបុត្រសម្រាប់ទីតាំងបេតិកភណ្ឌទាំង ៦ ឬទេ?"
-        : "Is there an admission fee for any of the 6 heritage stops?",
-      a: isKm
-        ? "មិនមានការគិតថ្លៃសំបុត្រអ្វីទាំងអស់ (១០០% ឥតគិតថ្លៃ)! ទីតាំងទាំងអស់ជាសំណង់សាធារណៈ សួនច្បារមាត់ព្រែក ហាងកាហ្វេ និងស្ពានថ្មើរជើងដែលបើកចំហជាសាធារណៈ ២៤ ម៉ោងក្នុងមួយថ្ងៃ។"
-        : "No, 100% free! All 6 stops are public civic monuments, active commercial shophouses (like Cai-coffee & Starbucks Fish Market), and public riverfront bridges open 24/7.",
-    },
-    {
-      q: isKm
-        ? "តើពេលវេលាណាដែលល្អបំផុតក្នុងថ្ងៃដើម្បីចាប់ផ្តើមដើរ?"
-        : "What is the best time of day to take the walk?",
-      a: isKm
-        ? "ពេលវេលាដ៏ល្អបំផុតគឺចាប់ពីម៉ោង ៤:១៥ រសៀល ដល់ ៦:០០ ល្ងាច។ អ្នកនឹងទទួលបានពន្លឺថ្ងៃលិចពណ៌មាសដ៏ស្រទន់លើអគារបុរាណពណ៌លឿង ហើយមកដល់ស្ពានឥន្ទធនូទាន់ពេលដើម្បីគយគន់ថ្ងៃលិចដ៏ល្បីល្បាញលើជួរភ្នំបូកគោ។"
-        : "The golden hour between 4:15 PM and 6:00 PM is prime time. The afternoon heat dissipates, warm golden light reflects off the French yellow facades, and you arrive at Entanou Bridge just in time for sunset over Bokor Mountain.",
-    },
-    {
-      q: isKm
-        ? "តើអាចជិះកង់ ឬម៉ូតូជំនួសការដើរបានទេ?"
-        : "Can I explore the trail by bicycle or scooter instead of walking?",
-      a: isKm
-        ? "បានយ៉ាងពិតប្រាកដ! វិថីមាត់ព្រែក និងស្ពានឥន្ទធនូអនុញ្ញាតឱ្យថ្មើរជើង កង់ និងម៉ូតូស្រាលឆ្លងកាត់បានដោយសេរី។ អ្នកអាចជួលកង់ពីសណ្ឋាគារក្នុងក្រុងកំពតបានយ៉ាងងាយ។"
-        : "Absolutely! The broad colonial avenues and the Entanou Bridge specifically accommodate pedestrians, bicycles, and light motorbikes. Bicycle rentals are readily available across Kampot.",
-    },
-    {
-      q: isKm
-        ? "តើខ្ញុំអាចស្តាប់តន្ត្រីសម័យមាសពេលកំពុងដើរដោយរបៀបណា?"
-        : "How do I listen to the vintage Cambodian music while on the trail?",
-      a: isKm
-        ? "គ្រាន់តែចុចលើផ្នែក 'Sounds of Kampot' ក្នុងគេហទំព័រនេះនៅលើទូរស័ព្ទដៃរបស់អ្នក! អ្នកអាចស្តាប់បទចម្រៀងសម័យមាសខ្មែរ ៨ បទពិតប្រាកដរបស់លោក ស៊ីន ស៊ីសាមុត និងអ្នកស្រី រស់ សេរីសុទ្ធា ដែលបានរៀបចំទុកសម្រាប់ទីតាំងនីមួយៗ។"
-        : "Simply open the 'Sounds of Kampot' audio playlist on your smartphone browser! The real vintage recordings by Sinn Sisamouth and Ros Serey Sothea stream seamlessly in the background as you walk.",
-    },
-    {
-      q: isKm
-        ? "តើរូបថតបណ្ណសារ និងឯកសារប្រវត្តិសាស្ត្រទទួលបានពីប្រភពណា?"
-        : "Where do the archival blueprints and historical photos come from?",
-      a: isKm
-        ? "ទិន្នន័យប្រវត្តិសាស្ត្រ និងរូបថតបណ្ណសារត្រូវបានផ្ទៀងផ្ទាត់ចេញពី បណ្ណសារជាតិក្រៅប្រទេសបារាំង (Archives Nationales d'Outre-Mer - ANOM), ក្រសួងសាធារណការ និងដឹកជញ្ជូន និងបណ្ណសារបេតិកភណ្ឌខេត្តកំពត។"
-        : "All archival blueprints, construction dates, and vintage photographs are cross-referenced with the French National Overseas Archives (ANOM Cadastre Indochine) and the Kampot Provincial Heritage Register.",
+      id: "qa-1",
+      q: "How long is the heritage walking route and how much time does it take?",
+      a: "The curated heritage trail covers 1.6 km (approximately 45–60 minutes at a relaxed strolling pace). The route is completely flat, tree-shaded along the French boulevards, and suitable for all fitness levels, strollers, and bicycles.",
     },
   ];
 

@@ -11,6 +11,7 @@ import BeforeAfterSlider from "@/components/BeforeAfterSlider";
 import SeahorseGuide from "@/components/SeahorseGuide";
 import PufferfishMascot, { PufferfishEmotion } from "@/components/PufferfishMascot";
 import { useLanguage } from "@/context/LanguageContext";
+import { useContent } from "@/context/ContentContext";
 import {
   MapPin,
   Compass,
@@ -56,11 +57,13 @@ interface StopDetailViewProps {
 }
 
 export default function StopDetailView({
-  stop,
+  stop: initialStop,
   prevStop,
   nextStop,
 }: StopDetailViewProps) {
   const { language, t } = useLanguage();
+  const { stops } = useContent();
+  const stop = stops.find((s) => s.id === initialStop.id) || initialStop;
   const isKm = language === "km";
   const [compareMode, setCompareMode] = useState<"sideBySide" | "slider">("sideBySide");
   const [galleryFilter, setGalleryFilter] = useState<"all" | "before" | "after">("all");

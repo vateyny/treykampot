@@ -252,20 +252,6 @@ export default function Navbar() {
                   <Moon className="w-4 h-4 text-[#1F354D] transition-transform duration-300 hover:-rotate-12" />
                 )}
               </button>
-
-              {/* Admin Editor Mode Pill */}
-              <NextLink
-                href="/admin"
-                className={`h-9 px-2.5 rounded-full flex items-center space-x-1.5 border transition-all shadow-xs cursor-pointer text-xs font-bold ${
-                  pathname === "/admin"
-                    ? "bg-[#F0A536] text-[#1F354D] border-[#F0A536]"
-                    : "border-[#E8D9B8] dark:border-[#455565] bg-[#FFFFFF] dark:bg-[#263B4B] text-[#1F354D] dark:text-[#F5F0E5] hover:bg-[#E8D9B8] dark:hover:bg-[#354858]"
-                }`}
-                title={isKm ? "ផ្ទាំងគ្រប់គ្រង & កែប្រែគេហទំព័រ (Admin Editor)" : "Edit Site Content (Admin Mode)"}
-              >
-                <Settings className="w-3.5 h-3.5 text-[#F0A536]" />
-                <span className="hidden xl:inline">{isKm ? "កែប្រែ" : "Edit"}</span>
-              </NextLink>
             </div>
 
             {/* ========================================================= */}
@@ -354,20 +340,6 @@ export default function Navbar() {
                 </NextLink>
               );
             })}
-
-            {/* Mobile Admin Link */}
-            <NextLink
-              href="/admin"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl text-sm font-extrabold transition-all ${
-                pathname === "/admin"
-                  ? "bg-[#F0A536] text-[#1F354D]"
-                  : "text-[#F0A536] hover:bg-[#E8D9B8] dark:hover:bg-[#354858]"
-              }`}
-            >
-              <Settings className="w-4 h-4 text-[#F0A536]" />
-              <span>{isKm ? "ផ្ទាំងកែសម្រួលគេហទំព័រ (Admin Editor)" : "Edit Site Content (Admin)"}</span>
-            </NextLink>
           </div>
 
           <div className="pt-2 border-t border-[#E8D9B8] dark:border-[#455565]">
